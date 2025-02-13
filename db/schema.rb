@@ -10,9 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_13_050608) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_13_052659) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "funcionarios", force: :cascade do |t|
+    t.string "nome"
+    t.bigint "setor_id", null: false
+    t.bigint "unidade_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["setor_id"], name: "index_funcionarios_on_setor_id"
+    t.index ["unidade_id"], name: "index_funcionarios_on_unidade_id"
+  end
+
+  create_table "setors", force: :cascade do |t|
+    t.string "nome"
+    t.bigint "unidade_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["unidade_id"], name: "index_setors_on_unidade_id"
+  end
+
+  create_table "unidades", force: :cascade do |t|
+    t.string "nome"
+    t.string "endereco"
+    t.string "telefone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +52,35 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_13_050608) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  create_table "visita", force: :cascade do |t|
+    t.bigint "visitante_id", null: false
+    t.bigint "setor_id", null: false
+    t.bigint "funcionario_id"
+    t.datetime "data_hora_entrada", null: false
+    t.datetime "data_hora_saida"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["funcionario_id"], name: "index_visita_on_funcionario_id"
+    t.index ["setor_id"], name: "index_visita_on_setor_id"
+    t.index ["visitante_id"], name: "index_visita_on_visitante_id"
+  end
+
+  create_table "visitantes", force: :cascade do |t|
+    t.string "cpf", null: false
+    t.string "nome", null: false
+    t.string "rg"
+    t.string "telefone"
+    t.string "foto"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cpf"], name: "index_visitantes_on_cpf", unique: true
+  end
+
+  add_foreign_key "funcionarios", "setors"
+  add_foreign_key "funcionarios", "unidades"
+  add_foreign_key "setors", "unidades"
+  add_foreign_key "visita", "funcionarios"
+  add_foreign_key "visita", "setors"
+  add_foreign_key "visita", "visitantes"
 end

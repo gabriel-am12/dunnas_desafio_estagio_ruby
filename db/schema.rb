@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_13_052659) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_13_184125) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,12 +24,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_13_052659) do
     t.index ["unidade_id"], name: "index_funcionarios_on_unidade_id"
   end
 
-  create_table "setors", force: :cascade do |t|
+  create_table "setores", force: :cascade do |t|
     t.string "nome"
     t.bigint "unidade_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["unidade_id"], name: "index_setors_on_unidade_id"
+    t.index ["unidade_id"], name: "index_setores_on_unidade_id"
   end
 
   create_table "unidades", force: :cascade do |t|
@@ -77,10 +77,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_13_052659) do
     t.index ["cpf"], name: "index_visitantes_on_cpf", unique: true
   end
 
-  add_foreign_key "funcionarios", "setors"
+  add_foreign_key "funcionarios", "setores", column: "setor_id"
   add_foreign_key "funcionarios", "unidades"
-  add_foreign_key "setors", "unidades"
+  add_foreign_key "setores", "unidades"
   add_foreign_key "visita", "funcionarios"
-  add_foreign_key "visita", "setors"
+  add_foreign_key "visita", "setores", column: "setor_id"
   add_foreign_key "visita", "visitantes"
 end

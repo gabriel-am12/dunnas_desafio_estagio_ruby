@@ -1,2 +1,14 @@
-<h1>Visitantes#show</h1>
-<p>Find me in app/views/visitantes/show.html.erb</p>
+<h1>Detalhes do Visitante</h1>
+
+<p><strong>CPF:</strong> <%= @visitante.cpf %></p>
+<p><strong>Nome:</strong> <%= @visitante.nome %></p>
+<p><strong>RG:</strong> <%= @visitante.rg %></p>
+<p><strong>Telefone:</strong> <%= @visitante.telefone %></p>
+
+<% if @visitante.foto.present? %>
+  <p><strong>Foto:</strong></p>
+  <img src="<%= url_for(@visitante.foto) %>" alt="Foto do Visitante" width="150">
+<% end %>
+
+<%= link_to 'Editar', edit_visitante_path(@visitante) %> |
+<%= link_to 'Voltar', visitantes_path %>

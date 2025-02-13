@@ -1,2 +1,26 @@
-<h1>Setores#index</h1>
-<p>Find me in app/views/setores/index.html.erb</p>
+<h1>Lista de Setores</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Unidade</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @setores.each do |setor| %>
+      <tr>
+        <td><%= setor.nome %></td>
+        <td><%= setor.unidade.nome %></td>
+        <td>
+          <%= link_to 'Ver', setor %> |
+          <%= link_to 'Editar', edit_setor_path(setor) %> |
+          <%= link_to 'Excluir', setor, method: :delete, data: { confirm: "Tem certeza?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Novo Setor', new_setor_path %>

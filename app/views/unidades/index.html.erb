@@ -1,2 +1,28 @@
-<h1>Unidades#index</h1>
-<p>Find me in app/views/unidades/index.html.erb</p>
+<h1>Lista de Unidades</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Endereço</th>
+      <th>Telefone</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @unidades.each do |unidade| %>
+      <tr>
+        <td><%= unidade.nome %></td>
+        <td><%= unidade.endereco %></td>
+        <td><%= unidade.telefone %></td>
+        <td>
+          <%= link_to 'Ver', unidade %> |
+          <%= link_to 'Editar', edit_unidade_path(unidade) %> |
+          <%= link_to 'Excluir', unidade, method: :delete, data: { confirm: "Tem certeza?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Nova Unidade', new_unidade_path %>

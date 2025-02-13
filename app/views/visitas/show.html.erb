@@ -1,2 +1,10 @@
-<h1>Visitas#show</h1>
-<p>Find me in app/views/visitas/show.html.erb</p>
+<h1>Detalhes da Visita</h1>
+
+<p><strong>Visitante:</strong> <%= @visita.visitante.nome %></p>
+<p><strong>Setor:</strong> <%= @visita.setor.nome %></p>
+<p><strong>Funcionário:</strong> <%= @visita.funcionario&.nome || 'Não informado' %></p>
+<p><strong>Data e Hora de Entrada:</strong> <%= @visita.data_hora_entrada %></p>
+<p><strong>Data e Hora de Saída:</strong> <%= @visita.data_hora_saida || 'Ainda em andamento' %></p>
+
+<%= link_to 'Editar', edit_visita_path(@visita) %> |
+<%= link_to 'Voltar', visitas_path %>

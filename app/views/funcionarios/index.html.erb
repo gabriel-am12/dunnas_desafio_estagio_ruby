@@ -1,2 +1,28 @@
-<h1>Funcionarios#index</h1>
-<p>Find me in app/views/funcionarios/index.html.erb</p>
+<h1>Lista de Funcionários</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Setor</th>
+      <th>Unidade</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @funcionarios.each do |funcionario| %>
+      <tr>
+        <td><%= funcionario.nome %></td>
+        <td><%= funcionario.setor.nome %></td>
+        <td><%= funcionario.unidade.nome %></td>
+        <td>
+          <%= link_to 'Ver', funcionario %> |
+          <%= link_to 'Editar', edit_funcionario_path(funcionario) %> |
+          <%= link_to 'Excluir', funcionario, method: :delete, data: { confirm: "Tem certeza?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Novo Funcionário', new_funcionario_path %>

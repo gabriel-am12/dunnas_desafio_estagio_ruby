@@ -1,2 +1,7 @@
-<h1>Setores#show</h1>
-<p>Find me in app/views/setores/show.html.erb</p>
+<h1>Detalhes do Setor</h1>
+
+<p><strong>Nome:</strong> <%= @setor.nome %></p>
+<p><strong>Unidade:</strong> <%= @setor.unidade.nome %></p>
+
+<%= link_to 'Editar', edit_setor_path(@setor) %> |
+<%= link_to 'Voltar', setores_path %>

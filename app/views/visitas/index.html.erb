@@ -1,2 +1,32 @@
-<h1>Visitas#index</h1>
-<p>Find me in app/views/visitas/index.html.erb</p>
+<h1>Lista de Visitas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Visitante</th>
+      <th>Setor</th>
+      <th>Funcionário</th>
+      <th>Data Entrada</th>
+      <th>Data Saída</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @visitas.each do |visita| %>
+      <tr>
+        <td><%= visita.visitante.nome %></td>
+        <td><%= visita.setor.nome %></td>
+        <td><%= visita.funcionario&.nome || 'Não informado' %></td>
+        <td><%= visita.data_hora_entrada %></td>
+        <td><%= visita.data_hora_saida || 'Ainda em andamento' %></td>
+        <td>
+          <%= link_to 'Ver', visita %> |
+          <%= link_to 'Editar', edit_visita_path(visita) %> |
+          <%= link_to 'Excluir', visita, method: :delete, data: { confirm: "Tem certeza?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Nova Visita', new_visita_path %>

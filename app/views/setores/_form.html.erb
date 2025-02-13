@@ -1,0 +1,15 @@
+<%= form_with(model: setor, local: true) do |form| %>
+  <div>
+    <%= form.label :nome %>
+    <%= form.text_field :nome %>
+  </div>
+
+  <div>
+    <%= form.label :unidade_id, "Unidade" %>
+    <%= form.collection_select :unidade_id, Unidade.all, :id, :nome, prompt: "Selecione uma unidade" %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

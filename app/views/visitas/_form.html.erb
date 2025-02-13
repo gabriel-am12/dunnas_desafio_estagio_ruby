@@ -1,0 +1,30 @@
+<%= form_with(model: visita, local: true) do |form| %>
+  <div>
+    <%= form.label :visitante_id, "Visitante" %>
+    <%= form.collection_select :visitante_id, Visitante.all, :id, :nome, prompt: "Selecione um visitante" %>
+  </div>
+
+  <div>
+    <%= form.label :setor_id, "Setor" %>
+    <%= form.collection_select :setor_id, Setor.all, :id, :nome, prompt: "Selecione um setor" %>
+  </div>
+
+  <div>
+    <%= form.label :funcionario_id, "Funcionário (opcional)" %>
+    <%= form.collection_select :funcionario_id, Funcionario.all, :id, :nome, prompt: "Selecione um funcionário (se aplicável)" %>
+  </div>
+
+  <div>
+    <%= form.label :data_hora_entrada, "Data e Hora de Entrada" %>
+    <%= form.datetime_select :data_hora_entrada %>
+  </div>
+
+  <div>
+    <%= form.label :data_hora_saida, "Data e Hora de Saída (se aplicável)" %>
+    <%= form.datetime_select :data_hora_saida, include_blank: true %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

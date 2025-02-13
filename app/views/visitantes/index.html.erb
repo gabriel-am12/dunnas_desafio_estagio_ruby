@@ -1,2 +1,28 @@
-<h1>Visitantes#index</h1>
-<p>Find me in app/views/visitantes/index.html.erb</p>
+<h1>Lista de Visitantes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>CPF</th>
+      <th>Nome</th>
+      <th>Telefone</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @visitantes.each do |visitante| %>
+      <tr>
+        <td><%= visitante.cpf %></td>
+        <td><%= visitante.nome %></td>
+        <td><%= visitante.telefone %></td>
+        <td>
+          <%= link_to 'Ver', visitante %> |
+          <%= link_to 'Editar', edit_visitante_path(visitante) %> |
+          <%= link_to 'Excluir', visitante, method: :delete, data: { confirm: "Tem certeza?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Novo Visitante', new_visitante_path %>

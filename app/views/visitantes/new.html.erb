@@ -1,2 +1,5 @@
-<h1>Visitantes#new</h1>
-<p>Find me in app/views/visitantes/new.html.erb</p>
+<h1>Novo Visitante</h1>
+
+<%= render 'form', visitante: @visitante %>
+
+<%= link_to 'Voltar', visitantes_path %>

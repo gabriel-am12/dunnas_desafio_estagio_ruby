@@ -1,2 +1,8 @@
-<h1>Unidades#show</h1>
-<p>Find me in app/views/unidades/show.html.erb</p>
+<h1>Detalhes da Unidade</h1>
+
+<p><strong>Nome:</strong> <%= @unidade.nome %></p>
+<p><strong>Endereço:</strong> <%= @unidade.endereco %></p>
+<p><strong>Telefone:</strong> <%= @unidade.telefone %></p>
+
+<%= link_to 'Editar', edit_unidade_path(@unidade) %> |
+<%= link_to 'Voltar', unidades_path %>

@@ -1,0 +1,30 @@
+<%= form_with(model: visitante, local: true, multipart: true) do |form| %>
+  <div>
+    <%= form.label :cpf %>
+    <%= form.text_field :cpf %>
+  </div>
+
+  <div>
+    <%= form.label :nome %>
+    <%= form.text_field :nome %>
+  </div>
+
+  <div>
+    <%= form.label :rg %>
+    <%= form.text_field :rg %>
+  </div>
+
+  <div>
+    <%= form.label :telefone %>
+    <%= form.text_field :telefone %>
+  </div>
+
+  <div>
+    <%= form.label :foto, "Foto do Visitante" %>
+    <%= form.file_field :foto %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

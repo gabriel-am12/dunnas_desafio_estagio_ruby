@@ -1,0 +1,32 @@
+<h1>Painel Administrativo</h1>
+
+<div>
+  <h2>Gerenciamento de Usuários</h2>
+  <p>Total de Usuários: <%= @usuarios.count %></p>
+  <%= link_to 'Gerenciar Usuários', admin_users_path, class: "btn btn-primary" %>
+</div>
+
+<div>
+  <h2>Gerenciamento de Unidades</h2>
+  <p>Total de Unidades: <%= @unidades.count %></p>
+  <%= link_to 'Gerenciar Unidades', admin_unidades_path, class: "btn btn-primary" %>
+</div>
+
+<div>
+  <h2>Gerenciamento de Setores</h2>
+  <p>Total de Setores: <%= @setores.count %></p>
+  <%= link_to 'Gerenciar Setores', admin_setores_path, class: "btn btn-primary" %>
+</div>
+
+<div>
+  <h2>Gerenciamento de Funcionários</h2>
+  <p>Total de Funcionários: <%= @funcionarios.count %></p>
+  <%= link_to 'Gerenciar Funcionários', admin_funcionarios_path, class: "btn btn-primary" %>
+</div>
+
+<%= button_to "Sair", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn btn-danger" %>
+
+
+
+
+

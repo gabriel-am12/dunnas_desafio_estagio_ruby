@@ -1,12 +1,21 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: 'users/registrations' }
+  devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
 
-  resources :unidades
-  resources :setores
-  resources :funcionarios
-  resources :visitantes
-  resources :visitas
+  authenticated :user, ->(u) { u.administrador? } do
+    root to: 'admin#dashboard', as: :admin_dashboard
+  end
 
-  root to: "devise/sessions#new"
+  devise_scope :user do
+    root to: 'devise/sessions#new'
+  end
+
+  namespace :admin do
+    resources :users, except: [:show] 
+    resources :unidades 
+    resources :setores 
+    resources :funcionarios 
+    get 'admin/dashboard', to: 'admin#dashboard'
+  end
+
 end
 

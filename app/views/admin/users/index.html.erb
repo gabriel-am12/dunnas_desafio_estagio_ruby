@@ -1,0 +1,27 @@
+<h1>Gerenciar Usuários</h1>
+
+<%= link_to 'Novo Usuário', new_admin_user_path, class: "btn btn-success" %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Função</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @usuarios.each do |usuario| %>
+      <tr>
+        <td><%= usuario.email %></td>
+        <td><%= usuario.role.capitalize %></td>
+        <td>
+          <%= link_to "Editar", edit_admin_user_path(usuario), class: "btn btn-warning" %>
+          <%= button_to "Excluir", admin_user_path(usuario), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Voltar para o Dashboard', admin_dashboard_path, class: "btn btn-secondary" %>

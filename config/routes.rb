@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
 
   resources :unidades
   resources :setores
@@ -7,6 +7,6 @@ Rails.application.routes.draw do
   resources :visitantes
   resources :visitas
 
-  root 'visitas#index' # Página inicial mostrando visitas registradas
+  root to: "devise/sessions#new"
 end
 

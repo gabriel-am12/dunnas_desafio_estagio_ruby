@@ -1,0 +1,41 @@
+<h1>Gerenciar Unidades</h1>
+
+<%= link_to 'Nova Unidade', new_admin_unidade_path, class: "btn btn-success" %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Endereço</th>
+      <th>Setores</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @unidades.each do |unidade| %>
+      <tr>
+        <td><%= unidade.nome %></td>
+        <td><%= unidade.endereco %></td>
+        <td><%= unidade.telefone %></td>
+        <td>
+          <% if unidade.respond_to?(:setores) && unidade.setores.any? %>
+            <ul>
+              <% unidade.setores.each do |setor| %>
+                <li><%= setor.nome %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            <span>Sem setores cadastrados</span>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to "Editar", edit_admin_unidade_path(unidade), class: "btn btn-warning" %>
+          <%= button_to "Excluir", admin_unidade_path(unidade), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Voltar para o Dashboard", admin_dashboard_path, class: "btn btn-secondary" %>
+

@@ -1,0 +1,20 @@
+<%= form_with model: @unidade, url: @unidade.new_record? ? admin_unidades_path : admin_unidade_path(@unidade), local: true, method: @unidade.new_record? ? :post : :patch do |form| %>
+  <div>
+    <%= form.label :nome %>
+    <%= form.text_field :nome %>
+  </div>
+
+  <div>
+    <%= form.label :endereco, "Endereço" %>
+    <%= form.text_field :endereco %>
+  </div>
+
+  <div>
+    <%= form.label :telefone %>
+    <%= form.text_field :telefone %>
+ </div>
+
+  <div>
+    <%= form.submit "Salvar", class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,4 +1,4 @@
-<%= form_with model: @usuario, url: @usuario.new_record? ? admin_users_path : admin_user_path(@usuario), local: true, method: @usuario.new_record? ? :post : :patch do |form| %>
+<%= form_with model: @usuario, url: @usuario.new_record? ? admin_users_path : admin_user_path(@usuario), local: true, method: @usuario.new_record? ? :post : :patch, data: { turbo: false } do |form| %>
   <div>
     <%= form.label :email %>
     <%= form.email_field :email %>
@@ -16,10 +16,39 @@
 
   <div>
     <%= form.label :role, "Tipo de Usuário" %>
-    <%= form.select :role, User.roles.keys.map { |role| [role.humanize, role] }, prompt: "Selecione um tipo de usuário" %>
+    <%= form.select :role, User.roles.keys.map { |role| [role.humanize, role] }, { prompt: "Selecione um tipo de usuário" }, { id: "role_select" } %>
+  </div>
+
+  <div id="unidade_select" style="display: none;">
+    <%= form.label :unidade_id, "Unidade" %>
+    <%= form.collection_select :unidade_id, Unidade.all, :id, :nome, include_blank: "Nenhuma" %>
   </div>
 
   <div>
     <%= form.submit "Salvar", class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<script>
+  document.addEventListener("turbo:load", function() { 
+      let roleSelect = document.querySelector("#role_select");
+      let unidadeSelectDiv = document.querySelector("#unidade_select");
+
+      if (!roleSelect || !unidadeSelectDiv) {
+          console.warn("Elementos não encontrados, abortando script.");
+          return;
+      }
+
+      function toggleUnidadeSelect() {
+          if (roleSelect.value === "atendente") {
+              unidadeSelectDiv.style.display = "block";
+          } else {
+              unidadeSelectDiv.style.display = "none";
+          }
+      }
+
+      toggleUnidadeSelect();
+
+      roleSelect.addEventListener("change", toggleUnidadeSelect);
+  });
+</script>

@@ -25,10 +25,26 @@ class Admin::UsersController < ApplicationController
 
   def update
     @usuario = User.find(params[:id])
+
     if @usuario.update(user_params)
       redirect_to admin_users_path, notice: "Usuário atualizado com sucesso!"
     else
       render :edit, status: :unprocessable_entity
+    end
+
+    if @user.update(user_params)
+      if @user.atendente?
+        if params[:user][:unidade_id].present?
+          @user.update(unidade_id: params[:user][:unidade_id])
+        else
+          @user.update(unidade_id: nil) # Garante que Atendentes tenham unidade
+        end
+      else
+          @user.update(unidade_id: nil) # Remove a unidade se não for Atendente
+      end
+      redirect_to admin_users_path, notice: "Usuário atualizado com sucesso."
+    else
+      render :edit
     end
   end
 
@@ -45,6 +61,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:nome, :email, :password, :password_confirmation, :role)
+    params.require(:user).permit(:nome, :email, :password, :password_confirmation, :role, :unidade_id)
   end
 end

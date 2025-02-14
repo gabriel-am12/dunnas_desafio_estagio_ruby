@@ -6,13 +6,23 @@ class User < ApplicationRecord
 
   enum :role, { administrador: 0, atendente: 1, funcionario: 2 }
   has_one :funcionario
+  belongs_to :unidade, optional: true
+  validates :unidade_id, presence: true, if: -> { role == "atendente" }
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "deve ter um formato válido (exemplo: usuario@email.com)" }
   validates :password, length: { minimum: 6, message: "deve ter no mínimo 6 caracteres" }
+
+  validate :unidade_required_for_atendente
 
   before_update :remove_funcionario_if_role_changed
   after_create :create_funcionario_if_needed
   
   private
+
+  def unidade_required_for_atendente
+    if atendente? && unidade_id.nil?
+      errors.add(:unidade_id, "deve ser selecionada para atendentes.")
+    end
+  end
 
   def remove_funcionario_if_role_changed
     if role_changed? && role != "funcionario"

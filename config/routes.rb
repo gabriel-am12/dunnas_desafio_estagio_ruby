@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
+  get "atendente/dashboard"
   devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
 
-  authenticated :user, ->(u) { u.administrador? } do
-    root to: 'admin#dashboard', as: :admin_dashboard
+  authenticated :user do |u|
+    if u&.admin?
+      root to: "admin#dashboard", as: :admin_dashboard
+    elsif u&.atendente?
+      root to: "atendente#dashboard", as: :atendente_dashboard
+    else
+      root to: "visitas#index", as: :user_root
+    end
   end
 
   devise_scope :user do
@@ -16,6 +23,8 @@ Rails.application.routes.draw do
     resources :funcionarios 
     get 'admin/dashboard', to: 'admin#dashboard'
   end
+
+  resources :visitas, only: [:index, :new, :create, :show]
 
 end
 

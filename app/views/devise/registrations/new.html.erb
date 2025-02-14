@@ -29,7 +29,12 @@
 
   <div>
     <%= form.label :role, "Tipo de Usuário" %>
-    <%= form.select :role, User.roles.keys.map { |role| [role.humanize, role] }, prompt: "Selecione um tipo de usuário" %>
+    <%= form.select :role, User.roles.keys.map { |role| [role.humanize, role] }, { prompt: "Selecione um tipo de usuário" }, { id: "role_select" } %>
+  </div>
+
+  <div id="unidade_select" style="display: none;">
+    <%= form.label :unidade_id, "Unidade (Opcional)" %>
+    <%= form.collection_select :unidade_id, Unidade.all, :id, :nome, include_blank: "Nenhuma" %>
   </div>
 
   <div>
@@ -39,5 +44,27 @@
 
 <p>Já tem uma conta? <%= link_to "Entrar", new_user_session_path %></p>
 
+<script>
+  document.addEventListener("turbo:load", function() { 
+      let roleSelect = document.querySelector("#role_select");
+      let unidadeSelectDiv = document.querySelector("#unidade_select");
 
+      if (!roleSelect || !unidadeSelectDiv) {
+          console.warn("Elementos não encontrados, abortando script.");
+          return;
+      }
+
+      function toggleUnidadeSelect() {
+          if (roleSelect.value === "atendente") {
+              unidadeSelectDiv.style.display = "block";
+          } else {
+              unidadeSelectDiv.style.display = "none";
+          }
+      }
+
+      toggleUnidadeSelect();
+
+      roleSelect.addEventListener("change", toggleUnidadeSelect);
+  });
+</script>
 

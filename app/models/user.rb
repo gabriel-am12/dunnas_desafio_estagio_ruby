@@ -5,12 +5,22 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum :role, { administrador: 0, atendente: 1, funcionario: 2 }
+
+  def admin?
+    role == "admin"
+  end
+
+  def atendente?
+    role == "atendente"
+  end
+
   has_one :funcionario
   belongs_to :unidade, optional: true
   validates :unidade_id, presence: true, if: -> { role == "atendente" }
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "deve ter um formato válido (exemplo: usuario@email.com)" }
   validates :password, length: { minimum: 6, message: "deve ter no mínimo 6 caracteres" }
 
+  validates :unidade_id, presence: true, if: -> { role == 'atendente' && unidade_id.present? }
   validate :unidade_required_for_atendente
 
   before_update :remove_funcionario_if_role_changed

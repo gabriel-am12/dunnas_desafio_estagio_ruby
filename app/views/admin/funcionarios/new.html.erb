@@ -1,0 +1,5 @@
+<h1><%= @funcionario.new_record? ? "Novo Funcionário" : "Editar Funcionário" %></h1>
+
+<%= render 'form', funcionario: @funcionario %>
+
+<%= link_to "Voltar", admin_funcionarios_path %>

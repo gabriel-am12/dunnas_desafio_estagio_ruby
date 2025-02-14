@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :users, except: [:show] 
+    resources :users
     resources :unidades 
     resources :setores 
     resources :funcionarios 

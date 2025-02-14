@@ -1,0 +1,31 @@
+<h1>Gerenciar Funcionários</h1>
+
+<%= link_to "Novo Funcionário", new_admin_funcionario_path %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Setor</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @funcionarios.each do |funcionario| %>
+      <tr>
+        <td><%= funcionario.nome %></td>
+        <td><%= funcionario.user&.email || "Não registrado" %></td>
+        <td><%= funcionario.setor ? funcionario.setor.nome : "Nenhum" %></td>
+        <td>
+          <%= link_to "Editar", edit_admin_funcionario_path(funcionario) %>
+          <%= button_to "Excluir", admin_funcionario_path(funcionario), method: :delete, data: { confirm: "Tem certeza?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Voltar para o Dashboard", admin_dashboard_path %>
+
+

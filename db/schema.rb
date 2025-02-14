@@ -10,18 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_13_184125) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_14_034817) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "funcionarios", force: :cascade do |t|
     t.string "nome"
-    t.bigint "setor_id", null: false
-    t.bigint "unidade_id", null: false
+    t.bigint "setor_id"
+    t.bigint "unidade_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["setor_id"], name: "index_funcionarios_on_setor_id"
     t.index ["unidade_id"], name: "index_funcionarios_on_unidade_id"
+    t.index ["user_id"], name: "index_funcionarios_on_user_id"
   end
 
   create_table "setores", force: :cascade do |t|
@@ -79,6 +81,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_13_184125) do
 
   add_foreign_key "funcionarios", "setores", column: "setor_id"
   add_foreign_key "funcionarios", "unidades"
+  add_foreign_key "funcionarios", "users"
   add_foreign_key "setores", "unidades"
   add_foreign_key "visita", "funcionarios"
   add_foreign_key "visita", "setores", column: "setor_id"

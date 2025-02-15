@@ -11,18 +11,26 @@
   </thead>
   <tbody>
     <% @visitantes.each do |visitante| %>
-      <tr>
+     <tr>
         <td><%= visitante.cpf %></td>
         <td><%= visitante.nome %></td>
         <td><%= visitante.telefone %></td>
-        <td>
-          <%= link_to 'Ver', visitante %> |
-          <%= link_to 'Editar', edit_visitante_path(visitante) %> |
-          <%= link_to 'Excluir', visitante, method: :delete, data: { confirm: "Tem certeza?" } %>
-        </td>
-      </tr>
-    <% end %>
+      
+        <% if current_user.administrador? || (current_user.atendente? && visitante.unidade_id == current_user.unidade_id) %>
+          <td>
+            <%= link_to "Editar", edit_visitante_path(visitante) %>
+            <%= button_to "Excluir", visitante_path(visitante), method: :delete, data: { confirm: "Tem certeza?" } %>
+          </td>
+        <% else %>
+          <td>Sem permissão</td>
+        <% end %>
+     </tr>
+   <% end %>
   </tbody>
 </table>
 
 <%= link_to 'Novo Visitante', new_visitante_path %>
+<br>
+<br>
+<%= link_to 'Voltar para Dashboard', atendente_dashboard_path, class: 'btn btn-secondary' %>
+

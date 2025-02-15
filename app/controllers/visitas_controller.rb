@@ -1,8 +1,14 @@
 class VisitasController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_visita, only: %i[show edit update destroy]
+  before_action :verificar_acesso_atendente, only: [:index, :show]
 
   def index
-    @visitas = Visita.all
+    if current_user.atendente?
+      @visitas = Visita.where(unidade_id: current_user.unidade_id)
+    else
+      @visitas = Visita.all
+    end
   end
 
   def show; end
@@ -13,6 +19,8 @@ class VisitasController < ApplicationController
 
   def create
     @visita = Visita.new(visita_params)
+    @visita.unidade_id = @visita.setor.unidade_id
+    
     if @visita.save
       redirect_to @visita, notice: 'Visita registrada com sucesso.'
     else
@@ -36,6 +44,12 @@ class VisitasController < ApplicationController
   end
 
   private
+
+  def verificar_acesso_atendente
+    unless current_user.admin? || current_user.atendente? || current_user.funcionario?
+      redirect_to root_path, alert: "Acesso negado."
+    end
+  end
 
   def set_visita
     @visita = Visita.find(params[:id])

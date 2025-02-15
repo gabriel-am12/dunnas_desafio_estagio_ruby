@@ -6,8 +6,9 @@
 <p><strong>Telefone:</strong> <%= @visitante.telefone %></p>
 
 <% if @visitante.foto.present? %>
-  <p><strong>Foto:</strong></p>
-  <img src="<%= url_for(@visitante.foto) %>" alt="Foto do Visitante" width="150">
+  <%= image_tag @visitante.foto.url, class: "visitante-foto" %>
+<% else %>
+  <p>Sem foto cadastrada</p>
 <% end %>
 
 <%= link_to 'Editar', edit_visitante_path(@visitante) %> |

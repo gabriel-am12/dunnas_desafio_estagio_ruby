@@ -1,0 +1,18 @@
+<h1>Dashboard do Atendente</h1>
+
+<p>Bem-vindo, <%= current_user.email %>!</p>
+
+<h2>Gerenciamento de Visitantes</h2>
+<ul>
+  <li><%= link_to "Cadastrar Novo Visitante", new_visitante_path %></li>
+  <li><%= link_to "Listar Visitantes", visitantes_path %></li>
+</ul>
+
+<h2>Registro de Visitas</h2>
+<ul>
+  <li><%= link_to "Registrar Nova Visita", new_visita_path %></li>
+  <li><%= link_to "Listar Visitas", visitas_path %></li>
+</ul>
+
+<%= button_to "Sair", destroy_user_session_path, method: :delete, class: "btn btn-danger" %>
+

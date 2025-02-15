@@ -1,0 +1,33 @@
+<h1>Lista de Visitantes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>CPF</th>
+      <th>Unidade</th>
+      <% if current_user.admin? || (current_user.atendente? && current_user.unidade_id.present?) %>
+        <th>Ações</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @visitantes.each do |visitante| %>
+      <tr>
+        <td><%= visitante.nome %></td>
+        <td><%= visitante.cpf %></td>
+        <td><%= visitante.unidade.nome if visitante.unidade %></td>
+        <% if current_user.admin? || (current_user.atendente? && visitante.unidade_id == current_user.unidade_id) %>
+          <td>
+            <%= link_to 'Editar', edit_visitante_path(visitante) %> |
+            <%= link_to 'Excluir', visitante_path(visitante), method: :delete, data: { confirm: 'Tem certeza?' } %>
+          </td>
+        <% else %>
+          <td>Sem permissão</td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Cadastrar Novo Visitante', new_visitante_path %>

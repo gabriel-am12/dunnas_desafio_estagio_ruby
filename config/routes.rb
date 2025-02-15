@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     elsif u&.atendente?
       root to: "atendente#dashboard", as: :atendente_dashboard
     else
-      root to: "visitas#index", as: :user_root
+      root to: "devise/sessions#new", as: :user_root
     end
   end
 
@@ -21,10 +21,10 @@ Rails.application.routes.draw do
     resources :unidades 
     resources :setores 
     resources :funcionarios 
-    get 'admin/dashboard', to: 'admin#dashboard'
+    get 'dashboard', to: 'dashboard'
   end
 
   resources :visitas, only: [:index, :new, :create, :show]
-
+  resources :visitantes
 end
 

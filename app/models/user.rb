@@ -6,8 +6,8 @@ class User < ApplicationRecord
 
   enum :role, { administrador: 0, atendente: 1, funcionario: 2 }
 
-  def admin?
-    role == "admin"
+  def administrador?
+    role.to_s == "administrador"
   end
 
   def atendente?

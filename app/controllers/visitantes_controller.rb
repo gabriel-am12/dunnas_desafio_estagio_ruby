@@ -4,6 +4,21 @@ class VisitantesController < ApplicationController
   before_action :verificar_acesso_atendente, only: [:index, :show]
   before_action :verificar_permissao, only: [:edit, :update, :destroy]
 
+  def buscar
+    visitante = Visitante.find_by(cpf: params[:cpf])
+
+    if visitante
+      render json: {
+        encontrado: true,
+        nome: visitante.nome,
+        rg: visitante.rg,
+        telefone: visitante.telefone
+      }
+    else
+      render json: { encontrado: false }
+    end
+  end
+
   def index
     @visitantes = Visitante.all
   end

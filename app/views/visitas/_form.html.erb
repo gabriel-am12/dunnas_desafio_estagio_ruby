@@ -11,7 +11,7 @@
 
   <div>
     <%= form.label :funcionario_id, "Funcionário (opcional)" %>
-    <%= form.collection_select :funcionario_id, Funcionario.all, :id, :nome, prompt: "Selecione um funcionário (se aplicável)" %>
+    <%= f.collection_select :funcionario_id, Funcionario.joins(:setor).where(setores: { unidade_id: current_user.unidade_id }), :id, :nome, include_blank: true %>
   </div>
 
   <div>

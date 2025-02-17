@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_15_071116) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_15_194847) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,12 +61,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_15_071116) do
     t.bigint "visitante_id", null: false
     t.bigint "setor_id", null: false
     t.bigint "funcionario_id"
-    t.datetime "data_hora_entrada", null: false
+    t.datetime "data_hora_entrada", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "data_hora_saida"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "unidade_id", null: false
     t.index ["funcionario_id"], name: "index_visita_on_funcionario_id"
     t.index ["setor_id"], name: "index_visita_on_setor_id"
+    t.index ["unidade_id"], name: "index_visita_on_unidade_id"
     t.index ["visitante_id"], name: "index_visita_on_visitante_id"
   end
 
@@ -89,5 +91,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_15_071116) do
   add_foreign_key "users", "unidades"
   add_foreign_key "visita", "funcionarios"
   add_foreign_key "visita", "setores", column: "setor_id"
+  add_foreign_key "visita", "unidades"
   add_foreign_key "visita", "visitantes"
 end

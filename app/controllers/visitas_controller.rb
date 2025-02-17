@@ -1,7 +1,7 @@
 class VisitasController < ApplicationController
   before_action :authenticate_user!
   before_action :set_visita, only: %i[show edit update destroy]
-  before_action :verificar_acesso_atendente, only: [:index, :show]
+  before_action :verificar_acesso_atendente, only: [:index, :show, :new, :create]
 
   def index
     if current_user.atendente?
@@ -15,15 +15,59 @@ class VisitasController < ApplicationController
 
   def new
     @visita = Visita.new
+    @visitante = Visitante.find_by(cpf: params[:cpf]) || Visitante.new
+
+    puts "Debug: @visita inicializada? #{@visita.inspect}"
   end
 
+
   def create
+    puts "===== PARAMS RECEBIDOS ====="
+    puts params.inspect
+    puts "============================"
+
+    @visitante = Visitante.find_by(cpf: params[:visitante][:cpf])
+
+    if @visitante
+      puts "Visitante encontrado: #{@visitante.id}"
+    else
+      @visitante = Visitante.new(visitante_params)
+
+      if @visitante.save
+        puts "Novo visitante criado: #{@visitante.id}"
+      else
+        puts "Erro ao salvar visitante: #{@visitante.errors.full_messages}"
+        render :new and return
+      end
+    end
+
+
+   # Garantir que o setor e unidade estão sendo corretamente atribuídos
+    setor = Setor.find_by(id: visita_params[:setor_id])
+
+    if setor.nil?
+      puts "Erro: Setor não encontrado!"
+      render :new and return
+    end
+
+    unidade = setor.unidade
+
+    if unidade.nil?
+      puts "Erro: Unidade não encontrada para o setor!"
+      render :new and return
+    end
+
+    # Criar a visita com o `unidade_id` corretamente atribuído
     @visita = Visita.new(visita_params)
-    @visita.unidade_id = @visita.setor.unidade_id
+    @visita.visitante_id = @visitante.id
+    @visita.unidade_id = unidade.id
+    @visita.data_hora_entrada ||= Time.now
     
     if @visita.save
-      redirect_to @visita, notice: 'Visita registrada com sucesso.'
+      puts "Visita criada com sucesso: #{@visita.id}"
+      redirect_to visita_path(@visita), notice: 'Visita registrada com sucesso.'
     else
+      puts "Erro ao salvar visita: #{@visita.errors.full_messages}"
       render :new
     end
   end
@@ -46,7 +90,7 @@ class VisitasController < ApplicationController
   private
 
   def verificar_acesso_atendente
-    unless current_user.admin? || current_user.atendente? || current_user.funcionario?
+    unless current_user.administrador? || current_user.atendente? || current_user.funcionario?
       redirect_to root_path, alert: "Acesso negado."
     end
   end
@@ -56,7 +100,12 @@ class VisitasController < ApplicationController
   end
 
   def visita_params
-    params.require(:visita).permit(:visitante_id, :setor_id, :funcionario_id, :data_hora_entrada, :data_hora_saida)
+    params.require(:visita).permit(:visitante_id, :setor_id, :funcionario_id, :data_hora_entrada, :unidade_id)
   end
+
+  def visitante_params
+    params.require(:visitante).permit(:cpf, :nome, :rg, :telefone, :foto, :unidade_id)
+  end
+
 end
 

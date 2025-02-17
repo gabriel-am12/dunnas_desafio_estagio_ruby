@@ -1,5 +1,95 @@
-<h1>Nova Visita</h1>
+<h1>Registrar Nova Visita</h1>
 
-<%= render 'form', visita: @visita %>
+<%= form_with(model: @visita, url: visitas_path, data: { turbo: false }) do |f| %>
+  <h2>Dados do Visitante</h2>
+  <%= fields_for :visitante, @visitante do |v| %>
+    <div>
+      <%= v.label :cpf %>
+      <%= v.text_field :cpf, id: "cpf_input" %>
+    </div>
+    <div>
+      <%= label_tag :nome, "Nome" %>
+      <%= text_field_tag :nome, @visitante.nome, id: "visitante_nome", readonly: @visitante.persisted? %>
+    </div>
+    <div>
+      <%= label_tag :rg, "RG" %>
+      <%= text_field_tag :rg, @visitante.rg, id: "visitante_rg", readonly: @visitante.persisted? %>
+    </div>
+    <div>
+      <%= label_tag :telefone, "Telefone" %>
+      <%= text_field_tag :telefone, @visitante.telefone, id: "visitante_telefone", readonly: @visitante.persisted? %>
+    </div>
+    <div>
+      <%= v.label :foto %>
+      <%= v.file_field :foto %>
+    </div>
+  <% end %>
 
-<%= link_to 'Voltar', visitas_path %>
+  <h2>Dados da Visita</h2>
+  <div>
+    <%= f.label :setor_id, "Setor" %>
+    <%= f.collection_select :setor_id, Setor.where(unidade: current_user.unidade), :id, :nome %>
+  </div>
+  </br>
+  <div>
+    <%= f.label :funcionario_id, "Funcionário (Opcional)" %>
+    <%= f.collection_select :funcionario_id, Funcionario.joins(:setor).where(setores: { unidade_id: current_user.unidade_id }), :id, :nome, include_blank: true %>
+  </div>
+  </br>
+  <%= f.submit "Registrar Visita" %>
+<% end %>
+</br>
+<%= link_to 'Voltar', atendente_dashboard_path %>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("Script carregado!");
+    let cpfInput = document.getElementById("cpf_input");
+
+    cpfInput.addEventListener("input", function () {
+        console.log("CPF digitado: ", cpfInput.value);
+        let cpfValue = cpfInput.value.trim();
+
+        // Se o CPF estiver vazio, limpa os campos e retorna
+        if (cpfValue === "") {
+            document.getElementById("visitante_nome").value = "";
+            document.getElementById("visitante_rg").value = "";
+            document.getElementById("visitante_telefone").value = "";
+
+            document.getElementById("visitante_nome").readonly = false;
+            document.getElementById("visitante_rg").readonly = false;
+            document.getElementById("visitante_telefone").readonly = false;
+            return;
+        }
+
+        fetch(`/visitantes/buscar?cpf=${cpfValue}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erro ao buscar visitante");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.encontrado) {
+                    document.getElementById("visitante_nome").value = data.nome;
+                    document.getElementById("visitante_rg").value = data.rg;
+                    document.getElementById("visitante_telefone").value = data.telefone;
+
+                    document.getElementById("visitante_nome").readonly = true;
+                    document.getElementById("visitante_rg").readonly = true;
+                    document.getElementById("visitante_telefone").readonly = true;
+                } else {
+                    document.getElementById("visitante_nome").value = "";
+                    document.getElementById("visitante_rg").value = "";
+                    document.getElementById("visitante_telefone").value = "";
+
+                    document.getElementById("visitante_nome").readonly = false;
+                    document.getElementById("visitante_rg").readonly = false;
+                    document.getElementById("visitante_telefone").readonly = false;
+                }
+            })
+            .catch(error => console.error("Erro:", error));
+    });
+});
+
+</script>

@@ -24,7 +24,11 @@ Rails.application.routes.draw do
     get 'dashboard', to: 'dashboard'
   end
 
-  resources :visitas, only: [:index, :new, :create, :show]
-  resources :visitantes
+  resources :visitas, only: [:index, :new, :create, :show, :destroy]
+  resources :visitantes do
+    collection do
+      get 'buscar', to: 'visitantes#buscar'
+    end
+  end
 end
 

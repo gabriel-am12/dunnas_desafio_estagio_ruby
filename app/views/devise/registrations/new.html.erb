@@ -1,70 +1,75 @@
-<h2>Cadastro</h2>
+<div class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
+ 
+  <div class="card shadow p-4" style="width: 400px;">
+    <h2 class="text-center mb-3">Cadastro</h2>
 
-<% if resource.errors.any? %>
-  <div style="color: red;">
-    <h3><%= pluralize(resource.errors.count, "erro") %> encontrado(s):</h3>
-    <ul>
-      <% resource.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
+    <% if resource.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= pluralize(resource.errors.count, "erro") %> encontrado(s):</h4>
+        <ul>
+          <% resource.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with model: resource, url: registration_path(resource_name), local: true do |form| %>
+      <div class="mb-3">
+        <%= form.label :email, "Email", class: "form-label" %>
+        <%= form.email_field :email, autofocus: true, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :password, "Senha", class: "form-label" %>
+        <%= form.password_field :password, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :password_confirmation, "Confirme sua senha", class: "form-label" %>
+        <%= form.password_field :password_confirmation, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :role, "Tipo de Usuário", class: "form-label" %>
+        <%= form.select :role, User.roles.keys.map { |role| [role.humanize, role] }, { prompt: "Selecione um tipo de usuário" }, class: "form-select", id: "role_select" %>
+      </div>
+
+      <div class="mb-3" id="unidade_select" style="display: none;">
+        <%= form.label :unidade_id, "Unidade (Opcional)", class: "form-label" %>
+        <%= form.collection_select :unidade_id, Unidade.all, :id, :nome, { include_blank: "Nenhuma" }, class: "form-select" %>
+      </div>
+
+      <div class="d-grid">
+        <%= form.submit "Cadastrar", class: "btn btn-primary btn-block" %>
+      </div>
+    <% end %>
+
+    <p class="text-center mt-3">
+      Já tem uma conta? <%= link_to "Entrar", new_user_session_path, class: "text-primary" %>
+    </p>
   </div>
-<% end %>
-
-<%= form_with model: resource, url: registration_path(resource_name), local: true do |form| %>
-  <div>
-    <%= form.label :email %>
-    <%= form.email_field :email, autofocus: true %>
-  </div>
-
-  <div>
-    <%= form.label :password, "Senha" %>
-    <%= form.password_field :password %>
-  </div>
-
-  <div>
-    <%= form.label :password_confirmation, "Confirme sua senha" %>
-    <%= form.password_field :password_confirmation %>
-  </div>
-
-  <div>
-    <%= form.label :role, "Tipo de Usuário" %>
-    <%= form.select :role, User.roles.keys.map { |role| [role.humanize, role] }, { prompt: "Selecione um tipo de usuário" }, { id: "role_select" } %>
-  </div>
-
-  <div id="unidade_select" style="display: none;">
-    <%= form.label :unidade_id, "Unidade (Opcional)" %>
-    <%= form.collection_select :unidade_id, Unidade.all, :id, :nome, include_blank: "Nenhuma" %>
-  </div>
-
-  <div>
-    <%= form.submit "Cadastrar" %>
-  </div>
-<% end %>
-
-<p>Já tem uma conta? <%= link_to "Entrar", new_user_session_path %></p>
+</div>
 
 <script>
-  document.addEventListener("turbo:load", function() { 
-      let roleSelect = document.querySelector("#role_select");
-      let unidadeSelectDiv = document.querySelector("#unidade_select");
+  document.addEventListener("turbo:load", function() {
+    let roleSelect = document.querySelector("#role_select");
+    let unidadeSelectDiv = document.querySelector("#unidade_select");
 
-      if (!roleSelect || !unidadeSelectDiv) {
-          console.warn("Elementos não encontrados, abortando script.");
-          return;
+    if (!roleSelect || !unidadeSelectDiv) {
+      console.warn("Elementos não encontrados, abortando script.");
+      return;
+    }
+
+    function toggleUnidadeSelect() {
+      if (roleSelect.value === "atendente") {
+        unidadeSelectDiv.style.display = "block";
+      } else {
+        unidadeSelectDiv.style.display = "none";
       }
+    }
 
-      function toggleUnidadeSelect() {
-          if (roleSelect.value === "atendente") {
-              unidadeSelectDiv.style.display = "block";
-          } else {
-              unidadeSelectDiv.style.display = "none";
-          }
-      }
-
-      toggleUnidadeSelect();
-
-      roleSelect.addEventListener("change", toggleUnidadeSelect);
+    toggleUnidadeSelect();
+    roleSelect.addEventListener("change", toggleUnidadeSelect);
   });
 </script>
-

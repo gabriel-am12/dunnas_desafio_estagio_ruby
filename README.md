@@ -34,6 +34,7 @@ O sistema deve possuir 3 níveis de permissão de usuário, Administrador que po
 - Devise (Autenticação)
 - Cancancan (Autorização)
 - CarrierWave(Upload de fotos)
+- Bootstrap
 
 ## 🚀 Usando localmente
 

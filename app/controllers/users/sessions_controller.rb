@@ -4,6 +4,8 @@ class Users::SessionsController < Devise::SessionsController
       admin_dashboard_path
     elsif resource.atendente?
       atendente_dashboard_path
+    elsif resource.funcionario?
+      funcionarios_dashboard_path
     else
       root_path
     end

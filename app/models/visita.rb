@@ -1,6 +1,6 @@
 class Visita < ApplicationRecord
   belongs_to :visitante
-  belongs_to :setor
+  belongs_to :setor, foreign_key: "setor_id"
   belongs_to :unidade
   belongs_to :funcionario, optional: true
 

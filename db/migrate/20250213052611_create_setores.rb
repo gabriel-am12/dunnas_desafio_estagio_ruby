@@ -1,6 +1,6 @@
-class CreateSetors < ActiveRecord::Migration[8.0]
+class CreateSetores < ActiveRecord::Migration[8.0]
   def change
-    create_table :setors do |t|
+    create_table :setores do |t|
       t.string :nome
       t.references :unidade, null: false, foreign_key: true
 

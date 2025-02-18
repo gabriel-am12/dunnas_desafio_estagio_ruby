@@ -1,22 +1,16 @@
 class FuncionariosController < ApplicationController
-  def index
+  before_action :authenticate_user!
+  before_action :verificar_permissao
+
+  def dashboard
+    @visitas = Visita.joins(:setor)
+      .where(data_hora_saida: nil, setores: { id: current_user.funcionario.setor_id })
   end
 
-  def show
-  end
+  private
 
-  def new
-  end
-
-  def create
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def destroy
+  def verificar_permissao
+    redirect_to root_path, alert: "Acesso não autorizado." unless current_user.funcionario?
   end
 end
+

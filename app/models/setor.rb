@@ -4,5 +4,6 @@ class Setor < ApplicationRecord
   belongs_to :unidade
   has_many :users
   has_many :funcionarios, dependent: :destroy
+  has_many :visitas
   validates :nome, presence: true
 end

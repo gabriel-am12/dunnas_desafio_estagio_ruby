@@ -16,6 +16,7 @@ class User < ApplicationRecord
 
   has_one :funcionario
   belongs_to :unidade, optional: true
+  belongs_to :setor, optional: true
   validates :unidade_id, presence: true, if: -> { role == "atendente" }
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "deve ter um formato válido (exemplo: usuario@email.com)" }
   validates :password, length: { minimum: 6, message: "deve ter no mínimo 6 caracteres" }

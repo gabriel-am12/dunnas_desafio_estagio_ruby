@@ -3,6 +3,15 @@ class VisitasController < ApplicationController
   before_action :set_visita, only: %i[show edit update destroy]
   before_action :verificar_acesso_atendente, only: [:index, :show, :new, :create]
 
+  def finalizar
+    @visita = Visita.find(params[:id])
+    if @visita.update(data_hora_saida: Time.now)
+      redirect_to dashboard_funcionario_path, notice: "Visita finalizada com sucesso."
+    else
+      redirect_to dashboard_funcionario_path, alert: "Erro ao finalizar visita."
+    end
+  end
+
   def index
     if current_user.atendente?
       @visitas = Visita.where(unidade_id: current_user.unidade_id)
@@ -41,8 +50,6 @@ class VisitasController < ApplicationController
       end
     end
 
-
-   # Garantir que o setor e unidade estão sendo corretamente atribuídos
     setor = Setor.find_by(id: visita_params[:setor_id])
 
     if setor.nil?
@@ -57,7 +64,6 @@ class VisitasController < ApplicationController
       render :new and return
     end
 
-    # Criar a visita com o `unidade_id` corretamente atribuído
     @visita = Visita.new(visita_params)
     @visita.visitante_id = @visitante.id
     @visita.unidade_id = unidade.id

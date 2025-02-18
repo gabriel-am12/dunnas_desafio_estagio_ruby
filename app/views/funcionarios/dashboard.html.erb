@@ -1,0 +1,26 @@
+<h1>Dashboard do Funcionário</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Visitante</th>
+      <th>Setor</th>
+      <th>Data Entrada</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @visitas.each do |visita| %>
+      <tr>
+        <td><%= visita.visitante.nome %></td>
+        <td><%= visita.setor.nome %></td>
+        <td><%= visita.data_hora_entrada %></td>
+        <td>
+          <%= button_to "Finalizar Visita", finalizar_visita_path(visita), method: :patch, data: { confirm: "Tem certeza?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= button_to "Sair", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn btn-danger" %>

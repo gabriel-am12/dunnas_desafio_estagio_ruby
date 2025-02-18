@@ -1,2 +1,10 @@
-<h1>Editar Setor</h1>
-<%= render 'form' %>
+<h1 class="text-center mt-4">Editar Setor</h1>
+
+<div class="container mt-4">
+  <div class="card p-4 shadow-sm">
+    <%= render 'form' %>
+    <div class="mt-3">
+      <%= link_to "Voltar", admin_setores_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

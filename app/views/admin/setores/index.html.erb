@@ -1,9 +1,9 @@
-<h1>Gerenciar Setores</h1>
+<h1 class="mb-4">Gerenciar Setores</h1>
 
-<%= link_to "Novo Setor", new_admin_setore_path %>
+<%= link_to "Novo Setor", new_admin_setore_path, class: "btn btn-success mb-3" %>
 
-<table>
-  <thead>
+<table class="table table-striped">
+  <thead class="thead-dark">
     <tr>
       <th>Nome</th>
       <th>Unidade</th>
@@ -24,16 +24,17 @@
               <% end %>
             </ul>
           <% else %>
-            Sem funcionários cadastrados
+            <span class="text-muted">Sem funcionários cadastrados</span>
           <% end %>
         </td>
         <td>
-          <%= link_to "Editar", edit_admin_setore_path(setor) %>
-          <%= button_to "Excluir", admin_setore_path(setor), method: :delete, data: { confirm: "Tem certeza?" } %>
+          <%= link_to "Editar", edit_admin_setore_path(setor), class: "btn btn-warning btn-sm" %>
+          <%= button_to "Excluir", admin_setore_path(setor), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-danger btn-sm" %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to "Voltar para o Dashboard", admin_dashboard_path %>
+<%= link_to "Voltar para o Dashboard", admin_dashboard_path, class: "btn btn-secondary" %>
+

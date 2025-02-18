@@ -1,9 +1,9 @@
-<h1>Gerenciar Funcionários</h1>
+<h1 class="mb-4">Gerenciar Funcionários</h1>
 
-<%= link_to "Novo Funcionário", new_admin_funcionario_path %>
+<%= link_to 'Novo Funcionário', new_admin_funcionario_path, class: "btn btn-success mb-3" %>
 
-<table>
-  <thead>
+<table class="table table-striped">
+  <thead class="table-dark">
     <tr>
       <th>Nome</th>
       <th>Email</th>
@@ -18,14 +18,15 @@
         <td><%= funcionario.user&.email || "Não registrado" %></td>
         <td><%= funcionario.setor ? funcionario.setor.nome : "Nenhum" %></td>
         <td>
-          <%= link_to "Editar", edit_admin_funcionario_path(funcionario) %>
-          <%= button_to "Excluir", admin_funcionario_path(funcionario), method: :delete, data: { confirm: "Tem certeza?" } %>
+          <%= link_to "Editar", edit_admin_funcionario_path(funcionario), class: "btn btn-warning btn-sm" %>
+          <%= button_to "Excluir", admin_funcionario_path(funcionario), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-danger btn-sm" %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to "Voltar para o Dashboard", admin_dashboard_path %>
+<%= link_to "Voltar para o Dashboard", admin_dashboard_path, class: "btn btn-secondary" %>
+
 
 

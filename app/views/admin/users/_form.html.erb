@@ -1,54 +1,62 @@
 <%= form_with model: @usuario, url: @usuario.new_record? ? admin_users_path : admin_user_path(@usuario), local: true, method: @usuario.new_record? ? :post : :patch, data: { turbo: false } do |form| %>
-  <div>
-    <%= form.label :email %>
-    <%= form.email_field :email %>
-  </div>
+  <div class="container mt-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="mb-4"><%= @usuario.new_record? ? "Novo Usuário" : "Editar Usuário" %></h2>
 
-  <div>
-    <%= form.label :password %>
-    <%= form.password_field :password %>
-  </div>
+        <div class="mb-3">
+          <%= form.label :email, "Email", class: "form-label" %>
+          <%= form.email_field :email, class: "form-control", autofocus: true %>
+        </div>
 
-  <div>
-    <%= form.label :password_confirmation, "Confirme sua senha" %>
-    <%= form.password_field :password_confirmation %>
-  </div>
+        <div class="mb-3">
+          <%= form.label :password, "Senha", class: "form-label" %>
+          <%= form.password_field :password, class: "form-control" %>
+        </div>
 
-  <div>
-    <%= form.label :role, "Tipo de Usuário" %>
-    <%= form.select :role, User.roles.keys.map { |role| [role.humanize, role] }, { prompt: "Selecione um tipo de usuário" }, { id: "role_select" } %>
-  </div>
+        <div class="mb-3">
+          <%= form.label :password_confirmation, "Confirme sua senha", class: "form-label" %>
+          <%= form.password_field :password_confirmation, class: "form-control" %>
+        </div>
 
-  <div id="unidade_select" style="display: none;">
-    <%= form.label :unidade_id, "Unidade" %>
-    <%= form.collection_select :unidade_id, Unidade.all, :id, :nome, include_blank: "Nenhuma" %>
-  </div>
+        <div class="mb-3">
+          <%= form.label :role, "Tipo de Usuário", class: "form-label" %>
+          <%= form.select :role, User.roles.keys.map { |role| [role.humanize, role] }, { prompt: "Selecione um tipo de usuário" }, { class: "form-select", id: "role_select" } %>
+        </div>
 
-  <div>
-    <%= form.submit "Salvar", class: "btn btn-primary" %>
+        <div id="unidade_select" class="mb-3" style="display: none;">
+          <%= form.label :unidade_id, "Unidade (Opcional)", class: "form-label" %>
+          <%= form.collection_select :unidade_id, Unidade.all, :id, :nome, { include_blank: "Nenhuma" }, { class: "form-select" } %>
+        </div>
+
+        <div class="d-flex gap-2">
+          <%= form.submit "Salvar", class: "btn btn-primary" %>
+          <%= link_to "Voltar", admin_users_path, class: "btn btn-secondary" %>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
 
 <script>
-  document.addEventListener("turbo:load", function() { 
-      let roleSelect = document.querySelector("#role_select");
-      let unidadeSelectDiv = document.querySelector("#unidade_select");
+  document.addEventListener("turbo:load", function() {
+    let roleSelect = document.querySelector("#role_select");
+    let unidadeSelectDiv = document.querySelector("#unidade_select");
 
-      if (!roleSelect || !unidadeSelectDiv) {
-          console.warn("Elementos não encontrados, abortando script.");
-          return;
+    if (!roleSelect || !unidadeSelectDiv) {
+      console.warn("Elementos não encontrados, abortando script.");
+      return;
+    }
+
+    function toggleUnidadeSelect() {
+      if (roleSelect.value === "atendente") {
+        unidadeSelectDiv.style.display = "block";
+      } else {
+        unidadeSelectDiv.style.display = "none";
       }
+    }
 
-      function toggleUnidadeSelect() {
-          if (roleSelect.value === "atendente") {
-              unidadeSelectDiv.style.display = "block";
-          } else {
-              unidadeSelectDiv.style.display = "none";
-          }
-      }
-
-      toggleUnidadeSelect();
-
-      roleSelect.addEventListener("change", toggleUnidadeSelect);
+    toggleUnidadeSelect();
+    roleSelect.addEventListener("change", toggleUnidadeSelect);
   });
 </script>

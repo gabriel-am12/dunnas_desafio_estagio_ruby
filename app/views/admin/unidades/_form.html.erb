@@ -1,20 +1,20 @@
 <%= form_with model: @unidade, url: @unidade.new_record? ? admin_unidades_path : admin_unidade_path(@unidade), local: true, method: @unidade.new_record? ? :post : :patch do |form| %>
-  <div>
-    <%= form.label :nome %>
-    <%= form.text_field :nome %>
+  <div class="mb-3">
+    <%= form.label :nome, class: "form-label" %>
+    <%= form.text_field :nome, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :endereco, "Endereço" %>
-    <%= form.text_field :endereco %>
+  <div class="mb-3">
+    <%= form.label :endereco, "Endereço", class: "form-label" %>
+    <%= form.text_field :endereco, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :telefone %>
-    <%= form.text_field :telefone %>
- </div>
+  <div class="mb-3">
+    <%= form.label :telefone, class: "form-label" %>
+    <%= form.text_field :telefone, class: "form-control" %>
+  </div>
 
-  <div>
+  <div class="d-flex gap-2">
     <%= form.submit "Salvar", class: "btn btn-primary" %>
   </div>
 <% end %>

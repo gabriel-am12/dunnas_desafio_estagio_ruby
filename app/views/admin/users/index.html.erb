@@ -1,14 +1,16 @@
-<h1>Gerenciar Usuários</h1>
+<h1 class="mb-4">Gerenciar Usuários</h1>
 
-<%= link_to 'Novo Usuário', new_admin_user_path, class: "btn btn-success" %>
+<div class="mb-3">
+  <%= link_to 'Novo Usuário', new_admin_user_path, class: "btn btn-success" %>
+</div>
 
-<table>
-  <thead>
+<table class="table table-striped table-bordered">
+  <thead class="table-dark">
     <tr>
       <th>Email</th>
       <th>Função</th>
       <th>Unidade</th>
-      <th>Ações</th>
+      <th class="text-center">Ações</th>
     </tr>
   </thead>
   <tbody>
@@ -17,13 +19,15 @@
         <td><%= usuario.email %></td>
         <td><%= usuario.role.capitalize %></td>
         <td><%= usuario.atendente? ? usuario.unidade.nome : "Nenhuma" %></td>
-        <td>
-          <%= link_to "Editar", edit_admin_user_path(usuario), class: "btn btn-warning" %>
-          <%= button_to "Excluir", admin_user_path(usuario), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-danger" %>
+        <td class="text-center">
+          <%= link_to "Editar", edit_admin_user_path(usuario), class: "btn btn-warning btn-sm" %>
+          <%= button_to "Excluir", admin_user_path(usuario), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-danger btn-sm" %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to 'Voltar para o Dashboard', admin_dashboard_path, class: "btn btn-secondary" %>
+<div class="mt-4">
+  <%= link_to "Voltar para o Dashboard", admin_dashboard_path, class: "btn btn-secondary" %>
+</div>

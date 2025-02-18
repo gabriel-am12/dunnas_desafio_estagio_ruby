@@ -1,5 +1,10 @@
-<h1><%= @funcionario.new_record? ? "Novo Funcionário" : "Editar Funcionário" %></h1>
+<h1 class="text-center mt-4"><%= @funcionario.new_record? ? "Novo Funcionário" : "Editar Funcionário" %></h1>
 
-<%= render 'form', funcionario: @funcionario %>
-
-<%= link_to "Voltar", admin_funcionarios_path %>
+<div class="container mt-4">
+  <div class="card p-4 shadow-sm">
+    <%= render 'form', funcionario: @funcionario %>
+    <div class="mt-3">
+      <%= link_to "Voltar", admin_funcionarios_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

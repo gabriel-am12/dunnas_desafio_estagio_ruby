@@ -1,3 +1,10 @@
-<h1>Editar Unidade</h1>
-<%= render 'form' %>
-<%= link_to "Voltar", admin_unidades_path, class: "btn btn-secondary" %>
+<h1 class="text-center mt-4">Editar Unidade</h1>
+
+<div class="container mt-4">
+  <div class="card p-4 shadow-sm">
+    <%= render 'form' %>
+    <div class="mt-3">
+      <%= link_to "Voltar", admin_unidades_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

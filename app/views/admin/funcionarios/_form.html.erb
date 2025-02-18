@@ -1,17 +1,15 @@
 <%= form_with(model: funcionario, url: funcionario.persisted? ? admin_funcionario_path(funcionario) : admin_funcionarios_path, method: funcionario.persisted? ? :patch : :post, local: true) do |form| %>
-  <div>
-    <%= form.label :nome, "Nome" %>
-    <%= form.text_field :nome, required: true %>
+  <div class="mb-3">
+    <%= form.label :nome, "Nome", class: "form-label" %>
+    <%= form.text_field :nome, class: "form-control", required: true %>
   </div>
 
-  <div>
-    <%= form.label :setor_id, "Setor (opcional)" %>
-    <%= form.collection_select :setor_id, Setor.all, :id, :nome, include_blank: "Nenhum" %>
+  <div class="mb-3">
+    <%= form.label :setor_id, "Setor (opcional)", class: "form-label" %>
+    <%= form.collection_select :setor_id, Setor.all, :id, :nome, { include_blank: "Nenhum" }, class: "form-select" %>
   </div>
 
-  <div>
-    <%= form.submit "Salvar" %>
+  <div class="d-flex gap-2">
+    <%= form.submit "Salvar", class: "btn btn-primary" %>
   </div>
 <% end %>
-
-

@@ -1,30 +1,37 @@
-<h1>Painel Administrativo</h1>
+<div class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
+  <h1 class="mb-4 text-center">Painel Administrativo</h1>
 
-<div>
-  <h2>Gerenciamento de Usuários</h2>
-  <p>Total de Usuários: <%= @usuarios.count %></p>
-  <%= link_to 'Gerenciar Usuários', admin_users_path, class: "btn btn-primary" %>
+  <div class="card shadow p-4 w-100" style="max-width: 600px;">
+    <h2 class="text-center mb-3">Gerenciamento</h2>
+
+    <div class="list-group">
+      <a href="<%= admin_users_path %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        Gerenciar Usuários
+        <span class="badge bg-primary rounded-pill"><%= @usuarios.count %></span>
+      </a>
+
+      <a href="<%= admin_unidades_path %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        Gerenciar Unidades
+        <span class="badge bg-primary rounded-pill"><%= @unidades.count %></span>
+      </a>
+
+      <a href="<%= admin_setores_path %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        Gerenciar Setores
+        <span class="badge bg-primary rounded-pill"><%= @setores.count %></span>
+      </a>
+
+      <a href="<%= admin_funcionarios_path %>" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        Gerenciar Funcionários
+        <span class="badge bg-primary rounded-pill"><%= @funcionarios.count %></span>
+      </a>
+    </div>
+
+    <div class="mt-4 text-center">
+      <%= button_to "Sair", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn btn-danger w-100" %>
+    </div>
+  </div>
 </div>
 
-<div>
-  <h2>Gerenciamento de Unidades</h2>
-  <p>Total de Unidades: <%= @unidades.count %></p>
-  <%= link_to 'Gerenciar Unidades', admin_unidades_path, class: "btn btn-primary" %>
-</div>
-
-<div>
-  <h2>Gerenciamento de Setores</h2>
-  <p>Total de Setores: <%= @setores.count %></p>
-  <%= link_to 'Gerenciar Setores', admin_setores_path, class: "btn btn-primary" %>
-</div>
-
-<div>
-  <h2>Gerenciamento de Funcionários</h2>
-  <p>Total de Funcionários: <%= @funcionarios.count %></p>
-  <%= link_to 'Gerenciar Funcionários', admin_funcionarios_path, class: "btn btn-primary" %>
-</div>
-
-<%= button_to "Sair", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn btn-danger" %>
 
 
 

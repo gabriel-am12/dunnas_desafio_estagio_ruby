@@ -1,12 +1,12 @@
-<h1>Dashboard do Funcionário</h1>
+<h1 class="mb-4 text-center">Dashboard do Funcionário</h1>
 
-<table>
-  <thead>
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
     <tr>
       <th>Visitante</th>
       <th>Setor</th>
       <th>Data Entrada</th>
-      <th>Ações</th>
+      <th class="text-center">Ações</th>
     </tr>
   </thead>
   <tbody>
@@ -15,12 +15,18 @@
         <td><%= visita.visitante.nome %></td>
         <td><%= visita.setor.nome %></td>
         <td><%= visita.data_hora_entrada %></td>
-        <td>
-          <%= button_to "Finalizar Visita", finalizar_visita_path(visita), method: :patch, data: { confirm: "Tem certeza?" } %>
+        <td class="text-center">
+          <%= button_to "Finalizar Visita", finalizar_visita_path(visita), method: :patch, 
+                class: "btn btn-warning btn-sm",
+                data: { confirm: "Tem certeza que deseja finalizar esta visita?" } %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= button_to "Sair", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn btn-danger" %>
+<div class="d-flex justify-content-between mt-4">
+  <%= button_to "Sair", destroy_user_session_path, method: :delete, 
+        class: "btn btn-danger" %>
+</div>
+

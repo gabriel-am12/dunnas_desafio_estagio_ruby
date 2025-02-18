@@ -1,95 +1,84 @@
-<h1>Registrar Nova Visita</h1>
+<% content_for :title, "Registrar Nova Visita" %>
 
-<%= form_with(model: @visita, url: visitas_path, data: { turbo: false }) do |f| %>
-  <h2>Dados do Visitante</h2>
-  <%= fields_for :visitante, @visitante do |v| %>
-    <div>
-      <%= v.label :cpf %>
-      <%= v.text_field :cpf, id: "cpf_input" %>
-    </div>
-    <div>
-      <%= label_tag :nome, "Nome" %>
-      <%= text_field_tag :nome, @visitante.nome, id: "visitante_nome", readonly: @visitante.persisted? %>
-    </div>
-    <div>
-      <%= label_tag :rg, "RG" %>
-      <%= text_field_tag :rg, @visitante.rg, id: "visitante_rg", readonly: @visitante.persisted? %>
-    </div>
-    <div>
-      <%= label_tag :telefone, "Telefone" %>
-      <%= text_field_tag :telefone, @visitante.telefone, id: "visitante_telefone", readonly: @visitante.persisted? %>
-    </div>
-    <div>
-      <%= v.label :foto %>
-      <%= v.file_field :foto %>
-    </div>
-  <% end %>
+  <div class="card shadow-sm p-4">
+    <h2 class="text-secondary">Dados do Visitante</h2>
+    
+    <%= form_with(model: @visita, url: visitas_path, data: { turbo: false }, class: "needs-validation" ) do |f| %>
+      <%= fields_for :visitante, @visitante do |v| %>
+        <div class="mb-3">
+          <%= v.label :cpf, "CPF", class: "form-label fw-bold" %>
+          <%= v.text_field :cpf, id: "cpf_input", class: "form-control", placeholder: "Digite o CPF" %>
+        </div>
 
-  <h2>Dados da Visita</h2>
-  <div>
-    <%= f.label :setor_id, "Setor" %>
-    <%= f.collection_select :setor_id, Setor.where(unidade: current_user.unidade), :id, :nome %>
+        <div class="mb-3">
+          <%= v.label :nome, "Nome", class: "form-label fw-bold" %>
+          <%= v.text_field :nome, id: "visitante_nome", class: "form-control", readonly: @visitante.persisted? %>
+        </div>
+
+        <div class="mb-3">
+          <%= v.label :rg, "RG", class: "form-label fw-bold" %>
+          <%= v.text_field :rg, id: "visitante_rg", class: "form-control", readonly: @visitante.persisted? %>
+        </div>
+
+        <div class="mb-3">
+          <%= v.label :telefone, "Telefone", class: "form-label fw-bold" %>
+          <%= v.text_field :telefone, id: "visitante_telefone", class: "form-control", readonly: @visitante.persisted? %>
+        </div>
+
+        <div class="mb-3">
+          <%= v.label :foto, "Foto", class: "form-label fw-bold" %>
+          <%= v.file_field :foto, class: "form-control" %>
+        </div>
+      <% end %>
+
+      <h2 class="text-secondary mt-4">Dados da Visita</h2>
+      
+      <div class="mb-3">
+        <%= f.label :setor_id, "Setor", class: "form-label fw-bold" %>
+        <%= f.collection_select :setor_id, Setor.where(unidade: current_user.unidade), :id, :nome, {}, class: "form-select" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :funcionario_id, "Funcionário (Opcional)", class: "form-label fw-bold" %>
+        <%= f.collection_select :funcionario_id, Funcionario.joins(:setor).where(setores: { unidade_id: current_user.unidade_id }), :id, :nome, { include_blank: true }, class: "form-select" %>
+      </div>
+
+      <div class="d-flex justify-content-between mt-4">
+        <%= f.submit "Registrar Visita", class: "btn btn-success px-4" %>
+        <%= link_to 'Voltar', atendente_dashboard_path, class: "btn btn-secondary" %>
+      </div>
+    <% end %>
   </div>
-  </br>
-  <div>
-    <%= f.label :funcionario_id, "Funcionário (Opcional)" %>
-    <%= f.collection_select :funcionario_id, Funcionario.joins(:setor).where(setores: { unidade_id: current_user.unidade_id }), :id, :nome, include_blank: true %>
-  </div>
-  </br>
-  <%= f.submit "Registrar Visita" %>
-<% end %>
-</br>
-<%= link_to 'Voltar', atendente_dashboard_path %>
+</div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("Script carregado!");
+  document.addEventListener("DOMContentLoaded", function () {
     let cpfInput = document.getElementById("cpf_input");
 
     cpfInput.addEventListener("input", function () {
-        console.log("CPF digitado: ", cpfInput.value);
-        let cpfValue = cpfInput.value.trim();
+      let cpfValue = cpfInput.value.trim();
 
-        // Se o CPF estiver vazio, limpa os campos e retorna
-        if (cpfValue === "") {
+      if (cpfValue === "") {
+        document.getElementById("visitante_nome").value = "";
+        document.getElementById("visitante_rg").value = "";
+        document.getElementById("visitante_telefone").value = "";
+        return;
+      }
+
+      fetch(`/visitantes/buscar?cpf=${cpfValue}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.encontrado) {
+            document.getElementById("visitante_nome").value = data.nome;
+            document.getElementById("visitante_rg").value = data.rg;
+            document.getElementById("visitante_telefone").value = data.telefone;
+          } else {
             document.getElementById("visitante_nome").value = "";
             document.getElementById("visitante_rg").value = "";
             document.getElementById("visitante_telefone").value = "";
-
-            document.getElementById("visitante_nome").readonly = false;
-            document.getElementById("visitante_rg").readonly = false;
-            document.getElementById("visitante_telefone").readonly = false;
-            return;
-        }
-
-        fetch(`/visitantes/buscar?cpf=${cpfValue}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Erro ao buscar visitante");
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.encontrado) {
-                    document.getElementById("visitante_nome").value = data.nome;
-                    document.getElementById("visitante_rg").value = data.rg;
-                    document.getElementById("visitante_telefone").value = data.telefone;
-
-                    document.getElementById("visitante_nome").readonly = true;
-                    document.getElementById("visitante_rg").readonly = true;
-                    document.getElementById("visitante_telefone").readonly = true;
-                } else {
-                    document.getElementById("visitante_nome").value = "";
-                    document.getElementById("visitante_rg").value = "";
-                    document.getElementById("visitante_telefone").value = "";
-
-                    document.getElementById("visitante_nome").readonly = false;
-                    document.getElementById("visitante_rg").readonly = false;
-                    document.getElementById("visitante_telefone").readonly = false;
-                }
-            })
-            .catch(error => console.error("Erro:", error));
+          }
+        })
+        .catch(error => console.error("Erro:", error));
     });
-});
-
+  });
 </script>

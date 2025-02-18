@@ -1,9 +1,18 @@
-<h1>Detalhes da Visita</h1>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h2>Detalhes da Visita</h2>
+    </div>
+    <div class="card-body">
+      <p><strong>Visitante:</strong> <%= @visita.visitante.nome %></p>
+      <p><strong>Setor:</strong> <%= @visita.setor.nome %></p>
+      <p><strong>Funcionário:</strong> <%= @visita.funcionario&.nome || 'Não informado' %></p>
+      <p><strong>Data e Hora de Entrada:</strong> <%= @visita.data_hora_entrada %></p>
+      <p><strong>Data e Hora de Saída:</strong> <%= @visita.data_hora_saida || 'Ainda em andamento' %></p>
+    </div>
+    <div class="card-footer">
+      <%= link_to 'Voltar', visitas_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>
 
-<p><strong>Visitante:</strong> <%= @visita.visitante.nome %></p>
-<p><strong>Setor:</strong> <%= @visita.setor.nome %></p>
-<p><strong>Funcionário:</strong> <%= @visita.funcionario&.nome || 'Não informado' %></p>
-<p><strong>Data e Hora de Entrada:</strong> <%= @visita.data_hora_entrada %></p>
-<p><strong>Data e Hora de Saída:</strong> <%= @visita.data_hora_saida || 'Ainda em andamento' %></p>
-
-<%= link_to 'Voltar', visitas_path %>

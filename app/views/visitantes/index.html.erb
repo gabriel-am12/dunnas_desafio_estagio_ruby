@@ -1,7 +1,7 @@
-<h1>Lista de Visitantes</h1>
+<h1 class="mb-4">Lista de Visitantes</h1>
 
-<table>
-  <thead>
+<table class="table table-striped">
+  <thead class="thead-dark">
     <tr>
       <th>CPF</th>
       <th>Nome</th>
@@ -11,26 +11,26 @@
   </thead>
   <tbody>
     <% @visitantes.each do |visitante| %>
-     <tr>
+      <tr>
         <td><%= visitante.cpf %></td>
         <td><%= visitante.nome %></td>
         <td><%= visitante.telefone %></td>
-      
-        <% if current_user.administrador? || (current_user.atendente? && visitante.unidade_id == current_user.unidade_id) %>
-          <td>
-            <%= link_to "Editar", edit_visitante_path(visitante) %>
-            <%= button_to "Excluir", visitante_path(visitante), method: :delete, data: { confirm: "Tem certeza?" } %>
-          </td>
-        <% else %>
-          <td>Sem permissão</td>
-        <% end %>
-     </tr>
-   <% end %>
+        <td>
+          <%= link_to "Detalhes", visitante_path(visitante), class: "btn btn-sm btn-primary" %>
+          <% if current_user.administrador? || (current_user.atendente? && visitante.unidade_id == current_user.unidade_id) %>
+            <%= link_to "Editar", edit_visitante_path(visitante), class: "btn btn-sm btn-primary" %>
+            <%= button_to "Excluir", visitante_path(visitante), method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-sm btn-danger ml-2" %>
+          <% else %>
+            <span class="text-muted">Sem permissão</span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 
-<%= link_to 'Novo Visitante', new_visitante_path %>
-<br>
-<br>
-<%= link_to 'Voltar para Dashboard', atendente_dashboard_path, class: 'btn btn-secondary' %>
+<div class="d-flex justify-content-between">
+  <%= link_to 'Novo Visitante', new_visitante_path, class: "btn btn-success" %>
+  <%= link_to 'Voltar para Dashboard', atendente_dashboard_path, class: "btn btn-secondary" %>
+</div>
 

@@ -1,5 +1,10 @@
-<h1>Editar Visitante</h1>
+<h1 class="text-center mt-4">Editar Visitante</h1>
 
-<%= render 'form', visitante: @visitante %>
-
-<%= link_to 'Voltar', visitantes_path %>
+<div class="container mt-4">
+  <div class="card p-4 shadow-sm">
+    <%= render 'form', visitante: @visitante %>
+    <div class="mt-3">
+      <%= link_to "Voltar", visitantes_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

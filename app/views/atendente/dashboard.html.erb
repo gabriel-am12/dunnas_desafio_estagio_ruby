@@ -1,18 +1,36 @@
-<h1>Dashboard do Atendente</h1>
+<div class="container mt-4">
+  <div class="card shadow-sm p-4">
+    <h1 class="text-center mb-3">Dashboard do Atendente</h1>
+    <p class="text-muted text-center">Bem-vindo, <strong><%= current_user.email %></strong>!</p>
 
-<p>Bem-vindo, <%= current_user.email %>!</p>
+    <div class="mt-4">
+      <h2 class="mb-3">Gerenciamento de Visitantes</h2>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">
+          <%= link_to "Cadastrar Novo Visitante", new_visitante_path, class: "btn btn-primary btn-sm" %>
+        </li>
+        <li class="list-group-item">
+          <%= link_to "Listar Visitantes", visitantes_path, class: "btn btn-info btn-sm" %>
+        </li>
+      </ul>
+    </div>
 
-<h2>Gerenciamento de Visitantes</h2>
-<ul>
-  <li><%= link_to "Cadastrar Novo Visitante", new_visitante_path %></li>
-  <li><%= link_to "Listar Visitantes", visitantes_path %></li>
-</ul>
+    <div>
+      <h2 class="mb-3">Registro de Visitas</h2>
+      <ul class="list-group mb-4">
+        <li class="list-group-item">
+          <%= link_to "Registrar Nova Visita", new_visita_path, class: "btn btn-primary btn-sm" %>
+        </li>
+        <li class="list-group-item">
+          <%= link_to "Listar Visitas", visitas_path, class: "btn btn-info btn-sm" %>
+        </li>
+      </ul>
+    </div>
 
-<h2>Registro de Visitas</h2>
-<ul>
-  <li><%= link_to "Registrar Nova Visita", new_visita_path %></li>
-  <li><%= link_to "Listar Visitas", visitas_path %></li>
-</ul>
+    <div class="text-center">
+      <%= button_to "Sair", destroy_user_session_path, method: :delete, class: "btn btn-danger btn-lg mt-3" %>
+    </div>
+  </div>
+</div>
 
-<%= button_to "Sair", destroy_user_session_path, method: :delete, class: "btn btn-danger" %>
 

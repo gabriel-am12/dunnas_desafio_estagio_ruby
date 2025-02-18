@@ -1,31 +1,32 @@
-<%= form_with(model: @visitante, local: true, multipart: true) do |f| %>
-  <div class="field">
-    <%= f.label :cpf %>
-    <%= f.text_field :cpf %>
+<%= form_with(model: @visitante, local: true, multipart: true, class: "styled-form") do |f| %>
+  <div class="form-group">
+    <%= f.label :cpf, "CPF", class: "form-label" %>
+    <%= f.text_field :cpf, class: "form-control", required: true %>
   </div>
 
-  <div class="field">
-    <%= f.label :nome %>
-    <%= f.text_field :nome %>
+  <div class="form-group">
+    <%= f.label :nome, "Nome", class: "form-label" %>
+    <%= f.text_field :nome, class: "form-control", required: true %>
   </div>
 
-  <div class="field">
-    <%= f.label :rg %>
-    <%= f.text_field :rg %>
+  <div class="form-group">
+    <%= f.label :rg, "RG", class: "form-label" %>
+    <%= f.text_field :rg, class: "form-control" %>
   </div>
 
-  <div class="field">
-    <%= f.label :telefone %>
-    <%= f.text_field :telefone %>
+  <div class="form-group">
+    <%= f.label :telefone, "Telefone", class: "form-label" %>
+    <%= f.text_field :telefone, class: "form-control" %>
   </div>
 
-  <div class="field">
-    <%= f.label :foto %>
-    <%= f.file_field :foto %>
+  <div class="form-group">
+    <%= f.label :foto, "Foto", class: "form-label" %>
+    <%= f.file_field :foto, class: "form-control-file" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Salvar" %>
+  <div class="form-actions">
+    <%= f.submit "Salvar", class: "btn btn-primary" %>
   </div>
 <% end %>
+
 
